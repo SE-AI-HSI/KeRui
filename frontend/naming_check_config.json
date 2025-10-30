@@ -1,0 +1,42 @@
+{
+  "General": {
+    "Rules": {
+      "FunctionName": 0,
+      "VariableName": 0,
+      "ClassName": 0,
+      "EnumName": 0,
+      "EnumValueName": 0
+    },
+    "IgnoredList": {
+      "FunctionPrefix": [
+        "_",
+        "__",
+        "~"
+      ],
+      "VariablePrefix": [
+        "m_",
+		"_",
+        "__"
+      ],
+      "EnumPrefix": [
+        "_",
+        "e"
+      ],
+      "EnumValPrefix": [
+        "_"
+      ],
+      "ClassPrefix": [
+        "_",
+        "c",
+        "s",
+        "u"
+      ],
+      "FunctionName": [
+        "main"
+      ]
+    }
+  },
+  "Camel": {
+    "AllowUnderscope": 0
+  }
+}

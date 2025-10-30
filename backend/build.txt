@@ -1,0 +1,49 @@
+clang-cppana.exe -f "D:/clang-cppana-2024/clang-cppana-2024/test_project" -port 111111 -astopt -catchdiag -csetinfo -detailfg
+
+# `clang-cppana-2024` 项目编译说明
+Author: Yujie Liu Date: 2024.10.14
+
+--------------------------------------------------------------------------------------------------
+## 编译要求
+1. 下载`clang-cppana-2024`项目源码包. 
+	1.1. 项目源码包结构说明：
+	- clang-cppana-2024:
+		- boost_1_86_0: 为了简化编译步骤，附带了已经编译好的`clang-cppana`需要的boost库
+		- build: 源代码编译指定输出文件夹(目前是空的，执行编译后里面才会有文件)
+		- src: 包含了llvm源代码（旧版本llvm，可能被修改过，暂时不能用llvm其他版本替代）和clang-cppana源代码
+			- clang/tools/clang-cppana: clang-cppana源代码都在这里，在这里进行clang-cppana开发
+		- build.txt: `clang-cppana-2024`项目编译说明
+2. 下载`Visual Studio 2022`并选择`C++桌面开发`:用其他版本的`vs`也可以，这里采用`vs2022`来示例。 
+3. 下载`CMake`: 编者使用的版本是3.30.3. 最新版本可以使用, 版本最低不小于3.20.0.
+4. 下载`Python`: Python3的都可以使用
+5. 下载`Anaconda3`/`miniconda3`
+
+--------------------------------------------------------------------------------------------------
+## 编译空间要求
+1. 9.34GB: 解压后的项目源码包（6.85GB的boost库+2.5GB的项目源代码）
+2. 1.37GB: 项目源码包压缩包
+3. `Visual Studio 2022`: 大概20GB
+4. `CMake`: 大概5GB
+
+--------------------------------------------------------------------------------------------------
+## Windows下编译步骤（`Visual Studio 2022`+`CMake`）
+1. 打开`x64 Native Tools Command Prompt for VS 2022`: 这个是`vs2022`提供的C++开发命令行，附有完整且标准的C++环境，非常推荐使用。
+2. 切换到`clang-cppana-2024`文件夹： `cd ....\clang-cppana-2024\`
+3. 用CMake+vs2022生成器生成项目：
+`cmake -S src\llvm -B build -G "Visual Studio 17 2022" -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD=X86 -Thost=x64`
+	3.1. 生成命令说明：
+	- `-S src\llvm`: 定位源代码启动CMakeLists.txt所在的文件夹位置 
+	- `-B build`: 输出编译文件到该目录下的`build`文件夹
+	- `-G "Visual Studio 17 2022"`: 指定生成器位vs2022, 想要使用其他生成器可以修改这个参数
+	- `-DLLVM_ENABLE_PROJECTS=clang`: 允许生成`LLVM`子项目`clang`, 这样就会编译`LLVM`的核心和`clang`两个项目，`clang-cppana`包含在`clang`项目中.
+	- `-DLLVM_TARGETS_TO_BUILD=X86 -Thost=x64`: 指定生成x86架构下的64-bit程序.
+4. 以管理员身份运行`Visual Studio 2022`并打开`build`文件夹下的`LLVM-sln`: 会把整个项目都加载到`vs2022`中
+5. 调节在`vs2022`项目编译参数设置：
+	5.1. `vs2022`最上方的菜单栏：`生成`==>`配置管理器`: 把所有项目都从`Debug`版本修改为`Release`版本：由于只是使用`clang`而不是开发`clang`， 所以编译体积更小的Release版本。（Debug版本大概要占165GB,太大了)
+	5.2. `vs2022`最上方的菜单栏： `工具`==>`选项`==>`项目与解决方案`==>`生成并运行`: 把最上方的`编译最大进程数`修改为2.（可以是其他数字，但是如果编译器报内存溢出，就去把这个调小）		
+6. 右键`clang-cppana`, 点击`生成`即可开始编译
+   或者点击一下`clang-cppana`, 在`vs2022`最上方的菜单栏: `生成`==>`生成clang-cppana`即可开始生成
+7. 编译成功后可以在`build\Release\bin\`下面找到可执行的`clang-cppana.exe`.
+--------------------------------------------------------------------------------------------------
+【END】
+  

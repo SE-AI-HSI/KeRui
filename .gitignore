@@ -1,0 +1,27 @@
+# 通用
+.DS_Store
+*.log
+*.tmp
+
+# C++ / 后端
+backend/build/
+backend/boost_1_86_0/
+backend/bin/
+backend/obj/
+backend/*.exe
+
+
+# Qt 项目中常见的生成文件
+*.pro.user
+*.qrc.dep
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/build/
+frontend/boost/
+
+# VSCode、IDE等
+.vscode/
+.idea/
